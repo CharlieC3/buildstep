@@ -2,11 +2,10 @@
 set -eo pipefail
 source $(dirname $0)/config/paths.sh
 
-mkdir -p $app_dir
+mkdir -p $app_dir/.profile.d
 mkdir -p $env_dir
 mkdir -p $cache_root
 mkdir -p $buildpack_root
-mkdir -p $build_root/.profile.d
 
 user_id=$((RANDOM+1000))
 user_name="u${user_id}"
@@ -31,8 +30,7 @@ chown $user_name:$user_name /dev/shm /tmp /var/tmp
 chown -R $user_name:$user_name  $app_dir \
                                 $env_dir \
                                 $cache_root \
-                                $buildpack_root \
-                                $build_root
+                                $buildpack_root
 
 # Compile the slug
 /usr/bin/setuidgid $user_name /build/compile.sh
@@ -67,7 +65,6 @@ EOF
 
 chmod +x /start
 ln -nsf /start /exec
-mv $build_root $app_dir
 
 # Clean up
 rm -rf /build/
