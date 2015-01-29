@@ -67,7 +67,8 @@ EOF
 
 chmod +x /start
 ln -nsf /start /exec
-mv $build_root/.. $app_dir
+mkdir -p $app_dir/target
+mv $build_root $app_dir/target
 
 # Clean up
 rm -rf /build/
